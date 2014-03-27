@@ -1,2 +1,4 @@
-BUILD
+BUILD/*
+!BUILD/keepdir.txt
+SRPMS/*.rpm
 tmp

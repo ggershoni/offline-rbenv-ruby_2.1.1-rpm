@@ -10,7 +10,7 @@ URL: 		https://https://github.com/ggershoni/offline-rbenv-ruby_2.1.1-rpm
 Source0: 	ruby-2.1.1.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-buildroot
 BuildRequires: 	redhat-rpm-config readline libyaml libyaml-devel readline-devel ncurses ncurses-devel gdbm gdbm-devel glibc-devel tcl-devel gcc unzip openssl-devel db4-devel byacc make libffi-devel openssl-devel
-Requires: 	libyaml openssl
+Requires: 	libyaml openssl rbenv
 
 %description
 Installs Ruby in a location that rbenv (from RPM) can manage, thereby allowing several version to co-exist. Used https://github.com/imeyer/ruby-1.9.3-rpm SPEC file as guide.
