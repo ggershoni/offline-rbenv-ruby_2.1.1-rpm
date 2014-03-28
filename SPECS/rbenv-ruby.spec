@@ -22,9 +22,6 @@ Installs Ruby in a location that rbenv (from RPM) can manage, thereby allowing s
 export CFLAGS="$RPM_OPT_FLAGS -Wall -fno-strict-aliasing"
 %configure \
   --disable-rpath 
-#  --enable-shared \
-#  --includedir=%{_includedir}/ruby \
-#  --libdir=%{_libdir} \
 
 make %{?_smp_mflags}
 
@@ -54,7 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 echo " "
-echo "rbenv enabled Ruby has been installed in /opt/rbenv-ruby_2.1.1"
+echo "rbenv enabled Ruby has been installed in /opt/rbenv-ruby_2.1.1. Log in again to activate."
 
 %files
 %dir %{_prefix}
