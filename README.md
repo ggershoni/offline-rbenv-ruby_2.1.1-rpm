@@ -7,9 +7,7 @@ This RPM does not download anything from the Internet.  The idea is to allow you
 
 ## Building RPM 
 
-### Centos/RHEL 5.x
-
-#### Useful sites
+### Useful sites
 
 http://wiki.centos.org/HowTos/SetupRpmBuildEnvironment
 
@@ -17,23 +15,39 @@ http://www.lamolabs.org/blog/164/centos-rpm-tutorial-1/
 
 http://www.lamolabs.org/blog/6837/centos-rpm-tutorial-part-3-building-your-own-rpm-of-jboss/
 
-#### Prepare
-This RPM will build Ruby from source so you will need development tool (gcc, gmake etc):
-```
-yum groupinstall 'Development Tools'
-```
+
+
+### Prepare
+
 Need to install the following packages to allow you to build RPMs:
 ```
 yum install rpm-build redhat-rpm-config
 ```
+
+This RPM has many build dependencies (packages we need to build it).  The following simplifies installing those:
+```
+yum install yum-utils
+```
+Now you can use yum-builddep... see "Building RPM"
+
+#### Centos/RHEL 5.x
+
 For EL5 you will also need:
 ```
 yum install buildsys-macros
 ```
-You may also want rpmdevtools for setting up new projects etc.  You will need to install EPEL repo first: 
+
+### Building RPM
+
+Some packages are not in default repos so get:
+
+ * libyaml and libyaml-devel from http://pkgs.repoforge.org/libyaml/
+
+Remember you can download and install RPMs in one go i.e.:
 ```
-yum install rpmdevtools
+yum install http://pkgs.repoforge.org/libyaml/libyaml-0.1.4-1.el6.rf.x86_64.rpm
 ```
+
 Building RPMs should never be done as root so:
 ```
 adduser rpmbuild
@@ -41,6 +55,7 @@ su - rpmbuild
 git clone https://github.com/ggershoni/offline-rbenv-ruby_2.1.1-rpm
 echo '%_topdir %(echo $HOME)/offline-rbenv-ruby_2.1.1-rpm' > ~/.rpmmacros 
 cd offline-rbenv-ruby_2.1.1-rpm
+sudo yum-builddep SPECS/rbenv-ruby.spec
 rpmbuild -ba SPECS/rbenv-ruby.spec
 ```
 
