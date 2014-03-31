@@ -2,7 +2,7 @@
 
 Name:		rbenv-ruby_2.1.1
 Version:	p76 
-Release: 	1%{?dist:%{dist}}
+Release: 	2%{?dist:%{dist}}
 Group: 		Development/Languages
 Summary: 	A ruby instance that can co-exist with other instances in the rbenv (RPM) ecosystem.
 License: 	MIT
@@ -31,8 +31,10 @@ make install DESTDIR=$RPM_BUILD_ROOT
 # delete source, doc and debug (all in usr dir which we don't want to install)
 rm -rf $RPM_BUILD_ROOT/usr
 # setup symbolic link and global version for users
-install -m 0755 -d $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
-cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/%{name}.sh <<END_OF_RBENV_RUBY_PROFILE
+%define system_profile_directory $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
+install -m 0755 -d %{system_profile_directory}
+%define profile_rbenv_ruby_script_filename %{system_profile_directory}/%{name}.sh
+cat > %{profile_rbenv_ruby_script_filename} <<END_OF_RBENV_RUBY_PROFILE
 # add rbenv ruby path symlink
 if [ ! -h ~/.rbenv/versions/2.1.1 ] 
   then
@@ -45,6 +47,7 @@ if [ ! -e ~/.rbenv/version ]
     echo "2.1.1" > ~/.rbenv/version
 fi
 END_OF_RBENV_RUBY_PROFILE
+chmod a+x %{profile_rbenv_ruby_script_filename}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,5 +63,8 @@ echo "rbenv enabled Ruby has been installed in /opt/rbenv-ruby_2.1.1. Log in aga
 %{_sysconfdir}/profile.d/rbenv-ruby_2.1.1.sh
 
 %changelog
+* Mon Mar 31 2014 Guy Gershoni <guy@conchus.com> - p76-2
+Making /etc/profile.d/rbenv-ruby_2.1.1.sh executable by all so works in RHEL 5
+
 * Mon Mar 24 2014 Guy Gershoni <guy@conchus.com> - 1-0.2.1.1
 - Initial version of the package
